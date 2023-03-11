@@ -1,1 +1,156 @@
+---
+title: "Homework 2"
+---
 
+Funciones en R 
+Una función en general es un bloque de código que realiza una tarea específica y da un resultado como respuesta. Son usadas para evitar la repetición de codigo y simplificar tareas.
+
+Estructura de una funcion en R
+  Nombre de la función: Es el nombre que se usa para identificar la funcion, debe de seguir las reglas de nomenclatura del lenguaje para ser un nombre valido
+  Argumentos: son los datos que la función recibira, estos pueden ser de cualquier tipo como números, vectores, matrices, listas, etc.
+  Cuerpo de la funcion: Es el grupo de instrucciones que completan la asingnacion de la funciion. Esta seccion debe estar dentro de llaves 
+  Return: Especifica el valor que la función devuelve como resultado.
+  
+
+```{r}
+nombre_de_la_funcion <- function(argumento_1, argumento_2, ...) {
+  cuerpo_de_la_funcion
+  return(resultado)
+}
+```
+
+Ejemplo de una función 
+```{r}
+promedio <- function(a,b,c) {
+  resultado <- (a + b +c)/3
+  return(resultado)
+}
+```
+Argumentos de una funcion
+Los argumentos son los valores que se pasan a una función para que esta los procese y los utilice en su tarea. En R, se pueden definir los argumentos de una función de la siguiente manera:
+```{r}
+funcion_random <- function(argumento_1, argumento_2, ...) {
+  cuerpo
+  return(resultado)
+}
+```
+Cada argumento se separa por coma y se pueden definir tantos argumentos como se requieran.También puede no recibir argumentos.
+
+Argumentos por valor 
+Consiste en copiar el contenido de la memoria del argumento que se quiere pasar a otra dirección de memoria, correspondiente al argumento dentro del ámbito de dicha subrutina. Se tendrán dos valores duplicados e independientes, con lo que la modificación de uno no afecta al otro.
+
+En R, los argumentos de una función se pasan por valor de forma predeterminada. Esto significa que cuando un argumento se pasa a una función, se crea una copia local del argumento dentro de la función. Cualquier modificación que se haga en el argumento dentro de la función no afectará el valor original fuera de la función.
+
+```{r}
+triple<- function(x){
+  x<- x*3
+  return(x)
+}
+a<- 3
+b<-triple(a)
+a
+b
+```
+En el ejemplo se puede observar que se asigno el valor de 3 a y este es equivalente al valor de x dentro de la funcion triple al implementarla, y el valor de x cambia al finalizar la función, pero este no afecto al valor inicial de a ya que x tenia una copia del valor de a en memoria.
+
+Familia apply 
+  Lapply
+  es una funcion de la familia apply de R que aplica una funcion a cada elemento de una lista y devuelve una lista como resultado
+```{r}
+numeros<-list(1,4,8,17)
+raices <- lapply(numeros, sqrt)
+raices
+```
+  Uso de lapply con funciones 
+  
+```{r}
+sumacuadrado <- function(x) {
+  return(x + x^2)
+}
+mitad<- function(x){
+  x<-x/2
+}
+par_impar <-function(x){
+  if (x %% 2 == 0){
+    x<-"par"
+  } else{
+    x<-"impar"
+  }
+}
+
+numeros <- list(1, 2, 3, 4, 5)
+resultado<-lapply(numeros, par_impar)
+resultado1<-lapply(numeros, mitad)
+resultado2<-lapply(numeros, sumacuadrado)
+resultado
+resultado1
+resultado2
+```
+  Sapply
+  toma a lista, vector o data frame como entrada y da un vector o matriz como salida.
+  
+  Uso de sapply con funciones 
+  
+```{r}
+cuadrado <- function(x) {
+  return(x^2)
+}
+mitad <- function(x){
+  return(x/2)
+}
+raiz <- function(x){
+  x <- sqrt(x)
+}
+negativo <-function(x){
+  return(x*-1)
+}
+numeros <- list(1, 2, 3, 4, 5)
+test<-sapply(numeros, cuadrado)
+test1<-sapply(numeros, mitad)
+test2<-sapply(numeros, raiz)
+test3<-sapply(numeros, negativo)
+test
+test1
+test2
+test3
+```
+  Vapply 
+  Es una funcion de la familia apply que es similar a sapply pero permite especificar el tipo y la longitud del resultado, la estructura de vapply es la siguiente:
+```{r}
+vapply(vector, funcion, tiporesultado, longitudresultado)
+```
+
+  Uso de vapply con funciones 
+  
+```{r}
+cuadrado <- function(x) {
+  return(x^2)
+}
+mitad <- function(x){
+  return(x/2)
+}
+raiz <- function(x){
+  x <- sqrt(x)
+}
+negativo <-function(x){
+  return(x*-1)
+}
+par_impar <-function(x){
+  if (x %% 2 == 0){
+    x<-"par"
+  } else{
+    x<-"impar"
+  }
+}
+numeros <- c(1, 2, 3, 16,25,30)
+numb<-vapply(numeros, cuadrado,numeric(1))
+numb1<-vapply(numeros, mitad,numeric(1))
+numb2<-vapply(numeros, raiz,numeric(1))
+numb3<-vapply(numeros, negativo,numeric(1))
+numb4<-vapply(numeros, par_impar,character(1))
+numb
+numb1
+numb2
+numb3
+numb4
+```
