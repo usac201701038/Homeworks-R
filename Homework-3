@@ -1,0 +1,67 @@
+---
+title: "Tarea 3"
+
+---
+```{r}
+library(dplyr)
+```
+
+ 
+1 Filtrar todos los votos del estado de Florida
+```{r}
+dataset_results <- read.csv("primary_results.csv")
+dataset_results_florida <-dataset_results %>%
+  filter(state =="Florida")
+dataset_results_florida
+
+```
+2 Utilice operadores lógicos (& and |), segun corresponda 
+
+2.1   Filtrar los votos para los candidatos Hilary Clinton o DOnald Tromp
+
+```{r}
+dataset_results_florida_candidatos <- dataset_results %>%
+  filter ( candidate =="Donald Trump" | candidate =="Hillary Clinton")
+dataset_results_florida_candidatos
+```
+
+2.2 Filtrar voto para el partido Demócrata y el condado shelvy 
+
+```{r}
+dataset_results_florida_partido_condado <- dataset_results %>%
+  filter ( county =="Shelby" & party =="Democrat")
+dataset_results_florida_partido_condado 
+```
+
+2.3 Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a 15000
+
+```{r}
+alabama_votos <- dataset_results %>%
+  filter( state=="Alabama" & votes >15000)
+alabama_votos
+```
+
+3.    utilizar funciones select y arrange para el siguiente filtrado
+
+3.1   Filtrar votos para el estado de Texas y el conddado Denton, seleccionando únicamente 
+las columnas party, candidate, votes, luego ordene de forma descendente por la columna votes
+
+```{r}
+Results_texas_Denton<- dataset_results %>%
+  filter(state=="Texas" & county =="Denton") %>%
+  select(party,candidate, votes) %>%
+  arrange(desc(votes))
+Results_texas_Denton
+```
+
+4.    Utilice el verbo mutate y arrange para el siguiente filtrado
+
+4.1   Filtrar por el partido Republicano, que el candidato sea Ted cruz en el estado de Alaska, luego agrege una columna que se llame vote_countque sea la división de vote por faction_votes (votes/fraction_votes), finalmente ordene de forma descendente por vote_count
+
+```{r}
+Rep_Ted_al<- dataset_results %>%
+  filter(party=="Republican" & candidate =="Ted Cruz" & state=="Alaska") %>%
+  mutate(vote_count = votes/fraction_votes)%>%
+  arrange(desc(vote_count))
+Rep_Ted_al
+  
