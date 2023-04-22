@@ -1,0 +1,59 @@
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+diamonds <- read_csv('diamonds.csv')
+diamonds
+
+
+```
+
+Dispersión
+
+```{r}
+library(ggplot2)
+ggplot(diamonds, aes(x=carat, y = price, color = clarity)) +geom_point()
+
+```
+
+Hisstograma 
+
+```{r}
+ggplot(diamonds, aes(x= price)) + geom_histogram(bins =40, color = "black") + scale_x_log10()
+```
+
+
+Boxplots  
+
+```{r}
+ggplot(diamonds, aes(x= cut, y= price)) + geom_boxplot(aes(fill = cut))+ scale_y_log10()
+```
+
+Faceting 
+```{r}
+filtered_price <-diamonds %>%
+  filter(price > 1000)%>%
+  filter(cut %in% c("Good","Ideal", "Premium"))
+
+ggplot(filtered_price, aes(x = cut, y = depth, fill = clarity)) + geom_bar(stat = "identity") +facet_wrap(~ clarity)
+
+
+```
+Grouping and summarizing 
+
+```{r}
+median_dimension_diamond <- diamonds %>%
+  group_by(cut) %>%
+  summarize(mediaX = mean(x), mediaY = mean(y), mediaZ = mean(z))
+median_dimension_diamond
+
+cut_premium <- diamonds %>%
+  filter(cut == "Premium") %>%
+  group_by(clarity) %>%
+  summarize(minPrice = min(price), maxPrice = max(price))
+cut_premium
+
+ggplot(cut_premium, aes(x = clarity, y = maxPrice, fill = clarity)) + 
+  geom_bar(stat = "identity", color = "black") +
+  labs(title = "Precio máximo de diamantes Premium por claridad", x = "Claridad", y = "Precio máximo")
